@@ -20,7 +20,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.uzl.itcr.mimic2fhir.model.MAdmission;
 import de.uzl.itcr.mimic2fhir.model.MCaregiver;
@@ -123,6 +125,26 @@ public class ConnectDB {
 		String query = "SELECT * FROM PATIENTS WHERE ROW_ID = " + rowId;
 		return getOnePatientFromDb(query);
 	}
+	
+    public List<Integer> getPatientRowIds() {
+        List<Integer> rowIds = new ArrayList<>();
+        String query = "SELECT ROW_ID FROM PATIENTS";
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Integer rowId = rs.getInt(1);
+                rowIds.add(rowId);
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return rowIds;
+    }
+
 	
 	private MPatient getOnePatientFromDb(String query) {
 		
