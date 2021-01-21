@@ -15,8 +15,10 @@ limitations under the License.
 /***********************************************************************/
 package de.uzl.itcr.mimic2fhir.model;
 
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Location;
+import java.util.Arrays;
+
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Location;
 
 import ca.uhn.fhir.model.primitive.IdDt;
 
@@ -82,7 +84,7 @@ public class MWard {
 				break;
 
 		}
-		loc.setType(cc);
+		loc.setType(Arrays.asList(cc));
 				
 		loc.setId(IdDt.newRandomUuid());
 		

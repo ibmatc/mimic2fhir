@@ -16,23 +16,25 @@ limitations under the License.
 package de.uzl.itcr.mimic2fhir.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Medication;
-import org.hl7.fhir.dstu3.model.Medication.MedicationIngredientComponent;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Dosage;
+import org.hl7.fhir.r4.model.Dosage.DosageDoseAndRateComponent;
+import org.hl7.fhir.r4.model.Medication;
+import org.hl7.fhir.r4.model.Medication.MedicationIngredientComponent;
+import org.hl7.fhir.r4.model.MedicationStatement;
+import org.hl7.fhir.r4.model.MedicationStatement.MedicationStatementStatus;
+import org.hl7.fhir.r4.model.Period;
+import org.hl7.fhir.r4.model.Range;
+import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.SimpleQuantity;
 
 import ca.uhn.fhir.model.primitive.IdDt;
 import de.uzl.itcr.mimic2fhir.tools.RxNormConcept;
 import de.uzl.itcr.mimic2fhir.tools.RxNormLookup;
-
-import org.hl7.fhir.dstu3.model.MedicationAdministration;
-import org.hl7.fhir.dstu3.model.MedicationAdministration.MedicationAdministrationDosageComponent;
-import org.hl7.fhir.dstu3.model.MedicationAdministration.MedicationAdministrationStatus;
-import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.SimpleQuantity;
 
 /**
  * Represents one row in mimiciii.prescriptions
@@ -247,24 +249,24 @@ public class MPrescription {
 	}
 	
 	/**
-	 * Create FHIR-"MedicationAdministration"-resource from this data
+	 * Create FHIR-"MedicationStatement"-resource from this data
 	 * @param patId Patient-FHIR-Resource-Id
 	 * @param encId Encounter-FHIR-Resource-Id
-	 * @return FHIR-MedicationAdministration
+	 * @return FHIR-MedicationStatement
 	 */
-	public MedicationAdministration getFhirMedAdministration(String patId, String encId, int seqNum) {
-		MedicationAdministration ma = new MedicationAdministration();
+	public MedicationStatement getFhirMedicationStatement(String patId, String encId, int seqNum) {
+		MedicationStatement med = new MedicationStatement();
 		
-		ma.addIdentifier().setSystem("http://www.imi-mimic.de/prescriptions").setValue(encId + "_" + seqNum);
+		med.addIdentifier().setSystem("http://www.imi-mimic.de/prescriptions").setValue(encId + "_" + seqNum);
 		
-		ma.setStatus(MedicationAdministrationStatus.COMPLETED);
+		med.setStatus(MedicationStatementStatus.COMPLETED);
 
-		ma.setSubject(new Reference(patId));
-		ma.setContext(new Reference(encId));
+		med.setSubject(new Reference(patId));
+		med.setContext(new Reference(encId));
 		
-		ma.setEffective(new Period().setEnd(end).setStart(start));
+		med.setEffective(new Period().setEnd(end).setStart(start));
 		
-		MedicationAdministrationDosageComponent mad = new MedicationAdministrationDosageComponent();
+		Dosage dosage = new Dosage();
 		
 		if(this.route != null) {
 			CodeableConcept route = new CodeableConcept();
@@ -370,7 +372,7 @@ public class MPrescription {
 					route.setText(this.route);
 					break;
 			}
-			mad.setRoute(route);
+			dosage.setRoute(route);
 		}
 	
 		//Dosage:
@@ -390,25 +392,41 @@ public class MPrescription {
 		}
 		
 		if(doseText.length() > 0) {
-			mad.setText(doseText);
+		    dosage.setText(doseText);
 		}
-		
-		//doseVal -> 30, doseUnit -> mg;
-		//Amount of medication per dose -> given at one event
-		double sqValue = 0.0;
-		try {
-			sqValue = Double.parseDouble(this.getDoseValRx());
-			mad.setDose((SimpleQuantity) new SimpleQuantity().setValue(sqValue).setUnit(this.getDoseUnitRx()));
-		}catch(NumberFormatException nfe) {
-			
-		}
-		catch(NullPointerException xpe) {
-			
-		}
-		//rate -> Speed
-		ma.setDosage(mad);
-		
-		return ma;
+	    DosageDoseAndRateComponent dose = new DosageDoseAndRateComponent();
+	    if (this.doseValRx.contains("-")) {
+	        String doseValRxSplit[] = this.doseValRx.split("-");
+            Range doseRange = new Range();
+            try {
+                double lowValue = Double.parseDouble(doseValRxSplit[0]);
+                doseRange.setLow((SimpleQuantity) new SimpleQuantity().setValue(lowValue).setUnit(this.getDoseUnitRx()));
+            } catch (NumberFormatException nfe) {
+            } catch (NullPointerException xpe) {
+            }
+            try {
+                double highValue = Double.parseDouble(doseValRxSplit[0]);
+                doseRange.setHigh((SimpleQuantity) new SimpleQuantity().setValue(highValue).setUnit(this.getDoseUnitRx()));
+            } catch (NumberFormatException nfe) {
+            } catch (NullPointerException xpe) {
+            }
+            dose.setDose(doseRange);
+	      } else {	        
+            // doseVal -> 30, doseUnit -> mg;
+            // Amount of medication per dose -> given at one event
+            double sqValue = 0.0;
+            try {
+                sqValue = Double.parseDouble(this.getDoseValRx());
+                dose.setDose((SimpleQuantity) new SimpleQuantity().setValue(sqValue).setUnit(this.getDoseUnitRx()));
+            } catch (NumberFormatException nfe) {
+            } catch (NullPointerException xpe) {
+            }
+	      }
+	    dosage.setDoseAndRate(Arrays.asList(dose));
+        // rate -> Speed
+        med.setDosage(Arrays.asList(dosage));
+        
+		return med;
 	}
 	
 	

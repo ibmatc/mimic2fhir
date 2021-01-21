@@ -19,18 +19,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Encounter.EncounterHospitalizationComponent;
-import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
-import org.hl7.fhir.dstu3.model.Medication;
-import org.hl7.fhir.dstu3.model.MedicationAdministration;
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.Procedure;
-import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Condition;
+import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.Encounter.EncounterHospitalizationComponent;
+import org.hl7.fhir.r4.model.Encounter.EncounterStatus;
+import org.hl7.fhir.r4.model.Medication;
+import org.hl7.fhir.r4.model.MedicationStatement;
+import org.hl7.fhir.r4.model.Observation;
+import org.hl7.fhir.r4.model.Period;
+import org.hl7.fhir.r4.model.Procedure;
+import org.hl7.fhir.r4.model.Reference;
 
 import ca.uhn.fhir.model.primitive.IdDt;
 
@@ -398,19 +398,19 @@ public class MAdmission {
 	}
 
 	/**
-	 * Create all FHIR-"MedicationAdministration"s for this encounter
+	 * Create all FHIR-"MedicationStatement"s for this encounter
 	 * @param patId Patient-FHIR-Resource-Id
 	 * @param encId Encounter-FHIR-Resource-Id
-	 * @return List with all MedicationAdministration
+	 * @return List with all MedicationStatement
 	 */
-	public List<MedicationAdministration> createFhirMedAdminsFromMimic(String patId, String encId) {
+	public List<MedicationStatement> createFhirMedicationStatementsFromMimic(String patId, String encId) {
 	
-		List<MedicationAdministration> administrations = new ArrayList<MedicationAdministration>();	
+		List<MedicationStatement> meds = new ArrayList<MedicationStatement>();	
 	
 		int index = 0;
 		for(MPrescription p : this.prescriptions) {			
-			administrations.add(p.getFhirMedAdministration(patId, encId, index++));
+		    meds.add(p.getFhirMedicationStatement(patId, encId, index++));
 		}
-		return administrations;
+		return meds;
 	}
 }

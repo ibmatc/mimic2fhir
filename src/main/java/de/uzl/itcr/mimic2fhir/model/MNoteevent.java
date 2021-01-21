@@ -15,13 +15,15 @@ limitations under the License.
 /***********************************************************************/
 package de.uzl.itcr.mimic2fhir.model;
 
+import java.util.Arrays;
 import java.util.Date;
 
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.DateTimeType;
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
+import org.hl7.fhir.r4.model.Annotation;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.DateTimeType;
+import org.hl7.fhir.r4.model.Observation;
+import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.Observation.ObservationStatus;
 
 import de.uzl.itcr.mimic2fhir.tools.Helper;
 
@@ -119,14 +121,16 @@ public class MNoteevent {
 				break;
 		}
 				
-		//Indication for Noteevent -> No Value, but comment
-		observation.setComment(this.getText());
-					
+        // Indication for Noteevent -> No Value, but comment
+        Annotation annotation = new Annotation();
+        annotation.setText(this.getText());
+        observation.setNote(Arrays.asList(annotation));
+
 		//Pat-Reference
 		observation.setSubject(new Reference(patId));
 		
 		//Enc-Reference
-		observation.setContext(new Reference(encId));
+		observation.setEncounter(new Reference(encId));
 		
 		//Record-Date
 		observation.setEffective(new DateTimeType(this.getChartdate()));

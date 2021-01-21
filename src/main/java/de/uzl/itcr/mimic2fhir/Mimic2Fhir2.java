@@ -18,20 +18,19 @@ package de.uzl.itcr.mimic2fhir;
 import java.util.HashMap;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Location;
-import org.hl7.fhir.dstu3.model.Medication;
-import org.hl7.fhir.dstu3.model.MedicationAdministration;
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
-import org.hl7.fhir.dstu3.model.Procedure;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.exceptions.FHIRFormatError;
+import org.hl7.fhir.r4.model.Condition;
+import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.Location;
+import org.hl7.fhir.r4.model.Medication;
+import org.hl7.fhir.r4.model.MedicationStatement;
+import org.hl7.fhir.r4.model.Observation;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Period;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Procedure;
+import org.hl7.fhir.r4.model.Reference;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.primitive.IdDt;
@@ -143,7 +142,7 @@ public class Mimic2Fhir2 {
 
                 // create List Of Medication & MedicationAdministrations
                 List<Medication> medications = admission.createFhirMedicationsFromMimic();
-                List<MedicationAdministration> prescriptions = admission.createFhirMedAdminsFromMimic(fhirPat.getId(), enc.getId());
+                List<MedicationStatement> prescriptions = admission.createFhirMedicationStatementsFromMimic(fhirPat.getId(), enc.getId());
 
                 // create Observations per Admission
                 List<Observation> obs = admission.createFhirObservationsFromMimic(fhirPat.getId(), enc.getId());
@@ -166,12 +165,12 @@ public class Mimic2Fhir2 {
                 }
 
                 // ..and MedicationAdministrations (with correct Medication as Reference)
-                for (MedicationAdministration madm : prescriptions) {
-                    String identifier = medications.get(prescriptions.indexOf(madm)).getCode().getCodingFirstRep().getCode();
+                for (MedicationStatement mstmt : prescriptions) {
+                    String identifier = medications.get(prescriptions.indexOf(mstmt)).getCode().getCodingFirstRep().getCode();
                     String medId = medicationInBundle.get(identifier);
-                    madm.setMedication(new Reference(medId));
+                    mstmt.setMedication(new Reference(medId));
 
-                    bundleC.addUUIDResourceToBundle(madm);
+                    bundleC.addUUIDResourceToBundle(mstmt);
                 }
 
                 // add observations to bundle
@@ -207,7 +206,7 @@ public class Mimic2Fhir2 {
             }
 
             if (fhirContext == null) {
-                fhirContext = FhirContext.forDstu3();
+                fhirContext = FhirContext.forR4();
                 // Use the narrative generator
                 fhirContext.setNarrativeGenerator(new DefaultThymeleafNarrativeGenerator());
             }

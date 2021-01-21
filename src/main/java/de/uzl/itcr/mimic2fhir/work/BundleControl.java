@@ -15,10 +15,12 @@ limitations under the License.
 /***********************************************************************/
 package de.uzl.itcr.mimic2fhir.work;
 
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Resource;
-import org.hl7.fhir.dstu3.model.Bundle.BundleType;
-import org.hl7.fhir.dstu3.model.Bundle.HTTPVerb;
+import java.util.UUID;
+
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleType;
+import org.hl7.fhir.r4.model.Bundle.HTTPVerb;
+import org.hl7.fhir.r4.model.Resource;
 
 /**
  * Handles bundle operations
@@ -36,7 +38,8 @@ public class BundleControl {
 	public BundleControl() {
 		//new Bundle
 		transactionBundle = new Bundle();
-		transactionBundle.setType(BundleType.TRANSACTION);
+        transactionBundle.setId(UUID.randomUUID().toString());
+        transactionBundle.setType(BundleType.TRANSACTION);
 		internalBundleNumber = 1;
 	}	
 	
@@ -68,6 +71,7 @@ public class BundleControl {
 	 */
 	public void resetBundle() {
 		transactionBundle = new Bundle();
+        transactionBundle.setId(UUID.randomUUID().toString());
 		transactionBundle.setType(BundleType.TRANSACTION);
 		numberOfResorces = 0;
 		internalBundleNumber++;

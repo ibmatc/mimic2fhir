@@ -122,7 +122,7 @@ public class ConnectDB {
 	 * @return filled MPatient-Object
 	 */
 	public MPatient getPatientByRowId(int rowId) {
-		String query = "SELECT * FROM PATIENTS WHERE ROW_ID = " + rowId;
+		String query = "SELECT * FROM PATIENTS WHERE ROW_ID = " + rowId + ";";
 		return getOnePatientFromDb(query);
 	}
 	

@@ -15,15 +15,16 @@ limitations under the License.
 /***********************************************************************/
 package de.uzl.itcr.mimic2fhir.model;
 
+import java.util.Arrays;
 import java.util.Date;
 
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.DateTimeType;
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Quantity;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.DateTimeType;
+import org.hl7.fhir.r4.model.Observation;
+import org.hl7.fhir.r4.model.Quantity;
+import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.StringType;
+import org.hl7.fhir.r4.model.Observation.ObservationStatus;
 
 /**
  * Represents one row in mimiciii.labevents
@@ -157,7 +158,7 @@ public class MLabevent {
 			observation.setSubject(new Reference(patId));
 			
 			//Enc-Reference
-			observation.setContext(new Reference(encId));
+			observation.setEncounter(new Reference(encId));
 			
 			//Record-Date
 			observation.setEffective(new DateTimeType(this.getAcquisitionDate()));
@@ -186,7 +187,7 @@ public class MLabevent {
 			if(this.isAbnormal()) {
 				cc = new CodeableConcept();
 				cc.addCoding().setSystem("http://hl7.org/fhir/v2/0078").setCode("A").setDisplay("Abnormal");
-				observation.setInterpretation(cc);
+				observation.setInterpretation(Arrays.asList(cc));
 			}
 			
 			return observation;
