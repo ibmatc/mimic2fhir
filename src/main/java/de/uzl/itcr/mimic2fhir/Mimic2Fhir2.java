@@ -113,13 +113,22 @@ public class Mimic2Fhir2 {
 		medicationInBundle.clear();
 	}
 	
+	public synchronized Integer getNextPatientId() {
+	    return rowIds.remove(0);
+	}
 
-    public synchronized String getNextPatient() {
+    public String getNextPatient() {
+        return getPatient(getNextPatientId());
+    }
+	
+    public List<Integer> getPatientIds() {
+        return rowIds;
+    }
+    
+	public String getPatient(Integer patientId) {
         MPatient mimicPat = null;
-        int rowId = -1;
         if (rowIds != null && !rowIds.isEmpty()) {
-            rowId = rowIds.remove(0);
-            mimicPat = dbAccess.getPatientByRowId(rowId);
+            mimicPat = dbAccess.getPatientByRowId(patientId);
         }
         if (mimicPat == null) {
             return null;

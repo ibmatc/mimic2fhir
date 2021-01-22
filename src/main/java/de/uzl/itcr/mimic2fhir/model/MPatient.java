@@ -128,240 +128,238 @@ public class MPatient {
 			if(firstAdm.getMaritalStatus() != null){
 				switch(firstAdm.getMaritalStatus()) {
 					case "MARRIED":
-						cc.addCoding().setCode("M").setSystem("http://hl7.org/fhir/v3/MaritalStatus").setDisplay("Married");
+						cc.addCoding().setCode("M").setSystem("http://hl7.org/fhir/v4/MaritalStatus").setDisplay("Married");
 						break;
 					case "SINGLE":
-						cc.addCoding().setCode("S").setSystem("http://hl7.org/fhir/v3/MaritalStatus").setDisplay("Never Married");
+						cc.addCoding().setCode("S").setSystem("http://hl7.org/fhir/v4/MaritalStatus").setDisplay("Never Married");
 							break;
 					case "WIDOWED":
-						cc.addCoding().setCode("W").setSystem("http://hl7.org/fhir/v3/MaritalStatus").setDisplay("Widowed");
+						cc.addCoding().setCode("W").setSystem("http://hl7.org/fhir/v4/MaritalStatus").setDisplay("Widowed");
 							break;
 					case "DIVORCED":
-						cc.addCoding().setCode("D").setSystem("http://hl7.org/fhir/v3/MaritalStatus").setDisplay("Divorced");
+						cc.addCoding().setCode("D").setSystem("http://hl7.org/fhir/v4/MaritalStatus").setDisplay("Divorced");
 						break;
 					case "SEPARATED":
-						cc.addCoding().setCode("L").setSystem("http://hl7.org/fhir/v3/MaritalStatus").setDisplay("Legally Separated");
+						cc.addCoding().setCode("L").setSystem("http://hl7.org/fhir/v4/MaritalStatus").setDisplay("Legally Separated");
 						break;
 					default:
-						cc.addCoding().setCode("UNK").setSystem("http://hl7.org/fhir/v3/MaritalStatus").setDisplay("Unknown");
+						cc.addCoding().setCode("UNK").setSystem("http://hl7.org/fhir/v4/MaritalStatus").setDisplay("Unknown");
 				}
 				pMimic.setMaritalStatus(cc);	
 			}
 			
 			//Language
 			if(firstAdm.getLanguage() != null) {
-				CodeableConcept lc = new CodeableConcept();
 				//Languages sometimes guessed - no dictionary or something in mimic..
 				switch(firstAdm.getLanguage()) {
 				case "*DUT":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("nl").setDisplay("Dutch");
+					pMimic.setLanguage("nl");
 					break;
 				case "URDU":
 				case "*URD":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("ur").setDisplay("Urdu");
+					pMimic.setLanguage("ur");
 					break;
 				case "*NEP":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("ne").setDisplay("Nepali");
+					pMimic.setLanguage("ne");
 					break;
 				case "TAGA":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("tl").setDisplay("Tagalog");
+					pMimic.setLanguage("tl");
 					break;
 				case "*TOY":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("toy").setDisplay("Topoiyo");
+					pMimic.setLanguage("toy");
 					break;
 				case "*RUS":
 				case "RUSS":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("ru").setDisplay("Russian");
+					pMimic.setLanguage("ru");
 					break;
 				case "ENGL":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("en").setDisplay("English");
+					pMimic.setLanguage("en");
 					break;
 				case "*ARM":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("hy").setDisplay("Armenian");
+					pMimic.setLanguage("hy");
 					break;
 				case "CANT":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("yue").setDisplay("Cantonese");
+					pMimic.setLanguage("yue");
 					break;
 				case "LAOT":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("tyl").setDisplay("Thu Lao");
+					pMimic.setLanguage("tyl");
 					break;
 				case "*MOR":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("mor").setDisplay("Moro");
+					pMimic.setLanguage("mor");
 					break;
 				case "*FUL":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("ff").setDisplay("Fulah");
+					pMimic.setLanguage("ff");
 					break;
 				case "*ROM":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("ro").setDisplay("Romanian");
+					pMimic.setLanguage("ro");
 					break;
 				case "*TOI":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("toi").setDisplay("Tonga");
+					pMimic.setLanguage("toi");
 					break;
 				case "BENG":
 				case "*BEN":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("bn").setDisplay("Bengali");
+					pMimic.setLanguage("bn");
 					break;
 				case "**TO":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("to").setDisplay("Tonga");
+					pMimic.setLanguage("to");
 					break;
 				case "PERS":
 				case "*PER":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("fa").setDisplay("Persian");
+					pMimic.setLanguage("fa");
 					break;
 				case "*TEL":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("te").setDisplay("Telugu");
+					pMimic.setLanguage("te");
 					break;
 				case "*YID":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("ji").setDisplay("Yiddish");
+					pMimic.setLanguage("ji");
 					break;
 				case "*CDI":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("cdi").setDisplay("Chodri");
+					pMimic.setLanguage("cdi");
 					break;
 				case "JAPA":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("jp").setDisplay("Japanese");
+					pMimic.setLanguage("jp");
 					break;
 				case "ALBA":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("sq").setDisplay("Albanian");
+					pMimic.setLanguage("sq");
 					break;
 				case "ARAB":
 				case "*ARA":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("ar").setDisplay("Arabic");
+					pMimic.setLanguage("ar");
 					break;
 				case "ITAL":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("it").setDisplay("Italian");
+					pMimic.setLanguage("it");
 					break;
 				case "*TAM":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("taq").setDisplay("Tamasheq");
+					pMimic.setLanguage("taq");
 					break;
 				case "*SPA":
 				case "SPAN":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("es").setDisplay("Spanish");
+					pMimic.setLanguage("es");
 					break;
 				case "*BOS":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("bs").setDisplay("Bosnian");
+					pMimic.setLanguage("bs");
 					break;
 				case "*AMH":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("am").setDisplay("Amharic");
+					pMimic.setLanguage("am");
 					break;
 				case "SOMA":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("so").setDisplay("Somali");
+					pMimic.setLanguage("so");
 					break;
 				case "CAPE":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("cap").setDisplay("Chipaya");
+					pMimic.setLanguage("cap");
 					break;
 				case "*PUN":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("pa").setDisplay("Punjabi");
+					pMimic.setLanguage("pa");
 					break;
 				case "POLI":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("pl").setDisplay("Polish");
+					pMimic.setLanguage("pl");
 					break;
 				case "*CHI":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("zh").setDisplay("Chinese");
+					pMimic.setLanguage("zh");
 					break;
 				case "*BUR":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("my").setDisplay("Burmese");
+					pMimic.setLanguage("my");
 					break;
 				case "*CAN":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("can").setDisplay("Chambri");
+					pMimic.setLanguage("can");
 					break;
 				case "*YOR":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("yox").setDisplay("Yoron");
+					pMimic.setLanguage("yox");
 					break;
 				case "*KHM":
 				case "CAMB":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("km").setDisplay("Central Khmer");
+					pMimic.setLanguage("km");
 					break;
 				case "AMER":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("en").setDisplay("English");
+					pMimic.setLanguage("en");
 					break;
 				case "*LIT":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("lt").setDisplay("Lithuanian");
+					pMimic.setLanguage("lt");
 					break;
 				case "*IBO":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("ibn").setDisplay("Ibino");
+					pMimic.setLanguage("ibn");
 					break;
 				case "KORE":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("ko").setDisplay("Korean");
+					pMimic.setLanguage("ko");
 					break;
 				case "*FIL":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("fil").setDisplay("Filipino");
+					pMimic.setLanguage("fil");
 					break;
 				case "THAI":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("th").setDisplay("Thai");
+					pMimic.setLanguage("th");
 					break;
 				case "**SH":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("sh").setDisplay("Serbo-Croatian");
+					pMimic.setLanguage("sh");
 					break;
 				case "FREN":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("fr").setDisplay("French");
+					pMimic.setLanguage("fr");
 					break;
 				case "*FAR":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("far").setDisplay("Fataleka");
+					pMimic.setLanguage("far");
 					break;
 				case "*CRE":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("crp").setDisplay("Creoles and pidgins");
+					pMimic.setLanguage("crp");
 					break;
 				case "HIND":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("hi").setDisplay("Hindi");
+					pMimic.setLanguage("hi");
 					break;
 				case "*HUN":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("hu").setDisplay("Hungarian");
+					pMimic.setLanguage("hu");
 					break;
 				case "ETHI":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("eth").setDisplay("Ethiopian Sign Language");
+					pMimic.setLanguage("eth");
 					break;
 				case "VIET":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("vi").setDisplay("Vietnamese");
+					pMimic.setLanguage("vi");
 					break;
 				case "*MAN":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("man").setDisplay("Mandingo");
+					pMimic.setLanguage("man");
 					break;
 				case "GERM":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("de").setDisplay("German");
+					pMimic.setLanguage("de");
 					break;
 				case "*PHI":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("phi").setDisplay("Philippine languages");
+					pMimic.setLanguage("phi");
 					break;
 				case "TURK":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("tr").setDisplay("Turkish");
+					pMimic.setLanguage("tr");
 					break;
 				case "*DEA":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("mjl").setDisplay("Mandeali");
+					pMimic.setLanguage("mjl");
 					break;
 				case "PTUN":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("ptu").setDisplay("Bambam");
+					pMimic.setLanguage("ptu");
 					break;
 				case "GREE":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("el").setDisplay("Modern Greek");
+					pMimic.setLanguage("el");
 					break;
 				case "MAND":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("cmn").setDisplay("Mandarin Chinese");
+					pMimic.setLanguage("cmn");
 					break;
 				case "HAIT":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("ht").setDisplay("Haitian");
+					pMimic.setLanguage("ht");
 					break;
 				case "SERB":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("sr").setDisplay("Serbian");
+					pMimic.setLanguage("sr");
 					break;
 				case "*BUL":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("bg").setDisplay("Bulgarian");
+					pMimic.setLanguage("bg");
 					break;
 				case "*LEB":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("leb").setDisplay("Lala-Bisa");
+					pMimic.setLanguage("leb");
 					break;
 				case "*GUJ":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("gu").setDisplay("Gujarati");
+					pMimic.setLanguage("gu");
 					break;
 				case "PORT":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("pt").setDisplay("Portugese");
+					pMimic.setLanguage("pt");
 					break;
 				case "* BE":
-					lc.addCoding().setSystem("http://hl7.org/fhir/ValueSet/languages").setCode("be").setDisplay("Belarusian");
+					pMimic.setLanguage("be");
 					break;
 				default:
-					lc.addCoding().setCode(firstAdm.getLanguage());
+				    pMimic.setLanguage(firstAdm.getLanguage());
 				}
-				pMimic.addCommunication().setLanguage(lc);
 			}
 		}
 		

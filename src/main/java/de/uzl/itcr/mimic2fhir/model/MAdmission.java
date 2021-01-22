@@ -221,16 +221,16 @@ public class MAdmission {
 			//‘ELECTIVE’, ‘URGENT’, ‘NEWBORN’ or ‘EMERGENCY’
 			switch(admissionType) {
 				case "ELECTIVCE":
-					enc.setClass_(new Coding().setCode("IMP").setSystem("http://hl7.org/fhir/v3/ActCode").setDisplay("inpatient encounter"));
+					enc.setClass_(new Coding().setCode("IMP").setSystem("http://hl7.org/fhir/v4/ActCode").setDisplay("inpatient encounter"));
 					break;
 				case "URGENT":
-					enc.setClass_(new Coding().setCode("ACUTE").setSystem("http://hl7.org/fhir/v3/ActCode").setDisplay("inpatient acute"));
+					enc.setClass_(new Coding().setCode("ACUTE").setSystem("http://hl7.org/fhir/v4/ActCode").setDisplay("inpatient acute"));
 					break;
 				case "EMERGENCY":
-					enc.setClass_(new Coding().setCode("EMER").setSystem("http://hl7.org/fhir/v3/ActCode").setDisplay("emergency"));
+					enc.setClass_(new Coding().setCode("EMER").setSystem("http://hl7.org/fhir/v4/ActCode").setDisplay("emergency"));
 					break;
 				case "NEWBORN":
-					enc.setClass_(new Coding().setCode("NEWB").setSystem("http://hl7.org/fhir/v3/ActCode").setDisplay("newborn"));
+					enc.setClass_(new Coding().setCode("NEWB").setSystem("http://hl7.org/fhir/v4/ActCode").setDisplay("newborn"));
 					break;
 			}
 			
