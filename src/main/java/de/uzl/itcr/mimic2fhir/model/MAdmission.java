@@ -220,7 +220,7 @@ public class MAdmission {
 			//AdmissionType -> Class
 			//‘ELECTIVE’, ‘URGENT’, ‘NEWBORN’ or ‘EMERGENCY’
 			switch(admissionType) {
-				case "ELECTIVCE":
+				case "ELECTIVE":
 					enc.setClass_(new Coding().setCode("IMP").setSystem("http://hl7.org/fhir/v4/ActCode").setDisplay("inpatient encounter"));
 					break;
 				case "URGENT":
